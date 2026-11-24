@@ -2,7 +2,7 @@
 
 Aplicação estática em HTML, CSS e JavaScript para acompanhar e gerenciar o Bingo dos Noivos. Não usa servidor de aplicação, banco de dados, login ou serviços externos.
 
-**Versão:** 1.0.0
+**Versão:** 1.0.1
 
 ## Páginas
 
@@ -29,6 +29,9 @@ O estado é salvo no `localStorage` do navegador e sincronizado entre abas abert
 index.html        painel público
 admin.html        gerenciamento
 css/bingo.css     tema e layout responsivo
+assets/images/brand/
+  couple-logo-primary.svg logo principal exibido no cabeçalho
+  couple-logo-*.svg       variações de cor da identidade visual
 js/
   bingo-domain.js  validação e regras de cartelas
   store.js         estado persistente e sincronização entre abas
@@ -48,4 +51,4 @@ releases/          notas por versão
 
 ## Versões
 
-Consulte [notas de versão](releases/README.md). A versão atual é a **1.0.0**.
+Consulte [notas de versão](releases/README.md). A versão atual é a **1.0.1**.
