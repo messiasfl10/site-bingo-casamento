@@ -2,7 +2,7 @@
 
 Aplicação estática em HTML, CSS e JavaScript para acompanhar e gerenciar o Bingo dos Noivos. Não usa servidor de aplicação, banco de dados, login ou serviços externos.
 
-**Versão:** 1.0.1
+**Versão:** 1.0.0
 
 ## Páginas
 
@@ -51,4 +51,4 @@ releases/          notas por versão
 
 ## Versões
 
-Consulte [notas de versão](releases/README.md). A versão atual é a **1.0.1**.
+Consulte [notas de versão](releases/README.md). A versão atual é a **1.0.0**.
