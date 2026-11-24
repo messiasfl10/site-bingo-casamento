@@ -1,4 +1,6 @@
-# 1.0.0 • 24 de novembro de 2026
+# Bingo dos Noivos • 1.0.0
+
+Lançada em 24 de novembro de 2026.
 
 Primeira versão do Bingo dos Noivos, em HTML, CSS e JavaScript estáticos.
 
