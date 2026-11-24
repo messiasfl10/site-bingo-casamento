@@ -13,3 +13,4 @@ Primeira versão do Bingo dos Noivos, em HTML, CSS e JavaScript estáticos.
 - Logo principal de Livia e Messias no cabeçalho das páginas.
 - Bolas dos painéis e da última chamada em formato circular com efeito de volume.
 - Pasta `assets/images/brand` com as variações do logo.
+- Controle de prêmio entregue no gerenciamento, com indicação pública da coluna encerrada e remoção dessa categoria das cartelas no páreo.

@@ -6,8 +6,8 @@ Aplicação estática em HTML, CSS e JavaScript para acompanhar e gerenciar o Bi
 
 ## Páginas
 
-- `index.html`: painel público com as 75 bolas por coluna, últimas chamadas, prêmios e cartelas compradas próximas de completar uma coluna ou a cartela cheia.
-- `admin.html`: importação de cartelas, registro e remoção de compras, leitura de QR-Code, chamadas e desfazer chamadas, exclusão de cartelas e início de um novo jogo.
+- `index.html`: painel público com as 75 bolas por coluna, últimas chamadas, prêmios e cartelas compradas próximas de completar uma coluna ou a cartela cheia. Prêmios entregues aparecem como encerrados e deixam de contar como chances.
+- `admin.html`: importação de cartelas, registro e remoção de compras, leitura de QR-Code, chamadas e desfazer chamadas, encerramento/reabertura de prêmios, exclusão de cartelas e início de um novo jogo.
 
 ## Executar
 
@@ -20,6 +20,8 @@ A câmera exige HTTPS ou `localhost` e depende do suporte do navegador à API `B
 Na primeira abertura, o sistema carrega o JSON padrão. Na tela **Gerenciar bingo**, importe outro JSON para substituir as cartelas e os prêmios atuais. O formato aceito segue o gerador deste projeto e contém `cartelas`, cada uma com `id` e uma grade 5 × 5 (`linhas`) ou colunas `B`, `I`, `N`, `G`, `O`. Valores de bola devem ser inteiros de 1 a 75; `null` representa o centro livre.
 
 Uma cartela só concorre depois de ser marcada como comprada. O QR-Code pode conter o identificador isolado (por exemplo, `001`) ou texto/URL com o número. O painel de cartelas próximas considera somente cartelas compradas. Uma coluna aparece com até dois números faltando; cartela cheia aparece com até três. Ao completar um prêmio, a interface destaca a cartela como **BINGO!**.
+
+Depois de confirmar a entrega de um prêmio, marque a categoria como entregue na página de gerenciamento. O painel público identifica a coluna encerrada, mostra a cartela vencedora quando informada e remove aquela categoria das chances de outras cartelas. O número da cartela vencedora é opcional; se preenchido, precisa estar comprada e ter completado o padrão com as bolas chamadas. Um novo jogo ou a importação de outro JSON reabre todas as categorias.
 
 O estado é salvo no `localStorage` do navegador e sincronizado entre abas abertas na mesma origem. Limpar os dados do navegador apaga o jogo. O estado não é compartilhado com outros dispositivos; para uma operação com vários aparelhos é necessário adicionar armazenamento/sincronização no servidor. Exporte ou preserve o JSON original para manter uma cópia das cartelas.
 

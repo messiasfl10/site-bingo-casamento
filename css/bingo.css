@@ -58,7 +58,9 @@ h1 { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 600; font-s
 .legend-dot.called { margin-left: 0; background: var(--purple); }
 .ball-board { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin-top: 20px; }
 .ball-column { min-width: 0; }
-.ball-column-head { display: grid; place-items: center; height: 29px; margin-bottom: 9px; border-radius: 7px; color: white; font-size: 11px; font-weight: 700; }
+.ball-column-head { position: relative; display: flex; align-items: center; justify-content: center; height: 29px; margin-bottom: 9px; border-radius: 7px; color: white; font-size: 11px; font-weight: 700; }
+.ball-column-head.column-closed { flex-direction: column; gap: 0; line-height: 1; }
+.column-closed-badge { position: static; color: rgba(255,255,255,.86); font-size: 6px; font-weight: 600; line-height: 1; letter-spacing: .035em; text-align: center; text-transform: uppercase; white-space: nowrap; }
 .column-b { background: #6f3881; }.column-i { background: #955384; }.column-n { background: #b27496; }.column-g { background: #b88765; }.column-o { background: #8c7552; }
 .ball-list { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 6px; }
 .ball { display: grid; place-items: center; width: 100%; aspect-ratio: 1; min-height: 0; border: 1px solid #eadfed; border-radius: 50%; color: #817987; background: radial-gradient(circle at 32% 25%, #fff 0, #fcf9fc 54%, #f0e9f1 100%); font-size: 9px; font-weight: 600; transition: transform .16s ease, background .16s ease, color .16s ease, box-shadow .16s ease; }
@@ -93,6 +95,9 @@ h1 { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 600; font-s
 .prize-mark { grid-row: span 2; display: grid; place-items: center; width: 23px; height: 23px; border-radius: 7px; background: #f4eef5; color: #895d90; font-family: "Cormorant Garamond", Georgia, serif; font-size: 12px; font-weight: 700; }
 .prize-name { color: #746b79; font-size: 9px; }
 .prize-value { margin-top: 2px; color: #38233e; font-size: 10px; font-weight: 700; }
+.prize-closed .prize-mark { grid-row: span 3; background: #eaf5ed; color: #42825a; }
+.prize-closed .prize-value { color: #837b86; text-decoration: line-through; text-decoration-color: #b0a7b1; }
+.prize-status { grid-column: 2; margin-top: 2px; color: #47845c; font-size: 8px; font-weight: 700; }
 .side-note { margin: 0; padding: 4px 8px; color: #968b99; font-family: "Cormorant Garamond", Georgia, serif; font-size: 14px; text-align: center; }
 .side-note span, .page-footer span { color: #a772a9; }
 .page-footer { padding: 28px 0 0; color: #a096a4; font-size: 9px; text-align: center; }
@@ -138,9 +143,21 @@ h1 { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 600; font-s
 .mini-action { border: 0; border-radius: 5px; padding: 5px 7px; cursor: pointer; font-size: 8px; font-weight: 600; }.remove-purchase { background: #faf1f1; color: #a45f61; }.remove-card { background: #f6f2f7; color: #79677d; }
 .list-limit { padding: 10px 2px; text-align: center; color: #9b929e; font-size: 9px; }
 .safety-note { display: flex; gap: 10px; background: #fbf8fb; }.note-icon { color: #9b6da0; font-size: 18px; }.safety-note strong { color: #614a66; font-size: 10px; }.safety-note p { margin: 5px 0 0; color: #8e8592; font-size: 9px; line-height: 1.6; }
+.prize-admin-list { display: grid; gap: 8px; margin-top: 14px; }
+.prize-admin-row { display: grid; grid-template-columns: minmax(120px, 1fr) minmax(145px, 200px) auto; align-items: center; gap: 8px; padding: 9px; border: 1px solid #f0eaf1; border-radius: 8px; background: #fcfafc; }
+.prize-admin-info { display: grid; gap: 3px; min-width: 0; }
+.prize-admin-info strong { color: #5e4563; font-size: 10px; }
+.prize-admin-info span { overflow: hidden; color: #908793; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+.prize-winner-input { min-width: 0; height: 35px; border: 1px solid #e7dfe8; border-radius: 6px; outline: none; padding: 0 8px; background: white; color: var(--ink); font: 11px Inter, Arial, sans-serif; }
+.prize-winner-input:focus { border-color: #af83b4; box-shadow: 0 0 0 3px #f4eaf5; }
+.prize-admin-action { min-height: 34px; padding-inline: 9px; white-space: nowrap; font-size: 9px; }
+.prize-admin-status { color: #43865c; font-size: 9px; font-weight: 700; }
+.is-prize-closed { background: #f7fbf8; border-color: #e1efe4; }
 .sr-only { position: absolute; width: 1px; height: 1px; clip: rect(0,0,0,0); overflow: hidden; white-space: nowrap; }
 @media (min-width: 1400px) { .ball-list { grid-template-columns: repeat(5, minmax(0,1fr)); }.ball { font-size: 9px; } }
 @media (max-width: 850px) { .content-grid, .admin-grid { grid-template-columns: minmax(0,1fr) 270px; gap: 13px; }.board-panel, .near-panel, .latest-panel, .prizes-panel, .admin-panel { padding: 15px; }.ball-board { gap: 6px; }.ball-list { gap: 4px; }.ball { border-radius: 50%; font-size: 8px; }.near-card { grid-template-columns: 48px minmax(0,1fr); }.near-progress { grid-column: 2; }.admin-summary > div { padding: 11px 12px; } }
+@media (max-width: 850px) { .prize-admin-row { grid-template-columns: minmax(0, 1fr) auto; }.prize-admin-info { grid-column: 1 / -1; }.prize-winner-input { grid-column: 1; }.prize-admin-action { grid-column: 2; grid-row: 2; } }
 @media (max-width: 680px) { .topbar { height: 66px; padding: 0 5%; }.brand-logo { width: 33px; height: 40px; }.brand-copy { font-size: 17px; }.topnav { gap: 0; }.topnav a { padding: 9px 10px; font-size: 10px; }.page-shell { width: 92%; padding-top: 32px; }.hero-row { align-items: flex-start; flex-direction: column; gap: 15px; margin-bottom: 20px; }.hero-row .game-pill { align-self: flex-start; }.stats-row { gap: 8px; }.stat-card { min-height: 72px; gap: 8px; padding: 11px 9px; }.stat-icon { width: 29px; height: 29px; border-radius: 9px; font-size: 14px; }.stat-label { font-size: 7px; letter-spacing: .07em; }.stat-card strong { font-size: 19px; }.content-grid, .admin-grid { grid-template-columns: 1fr; }.side-column { grid-template-columns: repeat(2, minmax(0,1fr)); align-items: start; }.side-note { grid-column: 1/-1; }.latest-panel, .prizes-panel { padding: 14px; }.section-heading h2 { font-size: 21px; }.hint { font-size: 0; gap: 0; }.hint .legend-dot { margin-left: 8px; }.hint .legend-dot.called { margin-left: 0; }.ball-board { gap: 7px; }.ball-list { grid-template-columns: repeat(3, minmax(0,1fr)); gap: 4px; }.ball-column-head { height: 26px; }.admin-actions { align-self: stretch; }.admin-summary { grid-template-columns: repeat(2,1fr); }.admin-summary > div { padding: 11px 13px; }.admin-shell .hero-row { gap: 14px; } }
 @media (max-width: 420px) { .brand-copy { font-size: 15px; }.topnav a { padding: 8px 7px; font-size: 9px; }.ball-list { grid-template-columns: repeat(2, minmax(0,1fr)); }.ball { font-size: 8px; }.board-panel, .near-panel { padding: 13px 10px; }.side-column { grid-template-columns: 1fr; }.side-note { grid-column: auto; }.near-card { grid-template-columns: 55px minmax(0,1fr) auto; }.near-progress { grid-column: auto; font-size: 8px; }.admin-actions { flex-wrap: wrap; }.admin-actions .button { flex: 1; }.source-row code { overflow-wrap: anywhere; }.input-row { align-items: stretch; flex-direction: column; }.input-row .button { min-height: 38px; } }
+@media (max-width: 420px) { .column-closed-badge { font-size: 5px; letter-spacing: 0; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }

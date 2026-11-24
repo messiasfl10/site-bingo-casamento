@@ -1,4 +1,5 @@
 export const COLUMNS = Object.freeze(['B', 'I', 'N', 'G', 'O']);
+export const PRIZE_CATEGORIES = Object.freeze([...COLUMNS, 'Cartela Cheia']);
 export const COLUMN_RANGES = Object.freeze({ B: [1, 15], I: [16, 30], N: [31, 45], G: [46, 60], O: [61, 75] });
 export const TOTAL_BALLS = 75;
 
@@ -43,7 +44,7 @@ function normalizePrizes(prizes) {
 
 export function makeInitialState(project) {
   const normalized = normalizeProject(project);
-  return { version: 1, gameName: 'Bingo dos Noivos', cards: normalized.cards, prizes: normalized.prizes, called: [], purchased: [], sourceName: 'inputs/bingo_card_500_official.json' };
+  return { version: 1, gameName: 'Bingo dos Noivos', cards: normalized.cards, prizes: normalized.prizes, called: [], purchased: [], closedPrizes: {}, sourceName: 'inputs/bingo_card_500_official.json' };
 }
 
 export function cleanState(value) {
@@ -53,9 +54,18 @@ export function cleanState(value) {
     const ids = new Set(normalized.cards.map((card) => card.id));
     const called = [...new Set(value.called.filter((number) => Number.isInteger(number) && number >= 1 && number <= TOTAL_BALLS))];
     const purchased = [...new Set(value.purchased.map(String).filter((id) => ids.has(id)))];
+    const closedPrizes = {};
+    if (value.closedPrizes && typeof value.closedPrizes === 'object' && !Array.isArray(value.closedPrizes)) {
+      for (const key of PRIZE_CATEGORIES) {
+        if (Object.hasOwn(value.closedPrizes, key)) {
+          const winnerId = value.closedPrizes[key];
+          closedPrizes[key] = typeof winnerId === 'string' ? winnerId.trim().slice(0, 40) : '';
+        }
+      }
+    }
     const savedName = typeof value.gameName === 'string' ? value.gameName.slice(0, 80) : 'Bingo dos Noivos';
     const gameName = savedName === 'Bingo do casamento' ? 'Bingo dos Noivos' : savedName;
-    return { version: 1, gameName, cards: normalized.cards, prizes: normalized.prizes, called, purchased, sourceName: typeof value.sourceName === 'string' ? value.sourceName.slice(0, 120) : 'JSON importado' };
+    return { version: 1, gameName, cards: normalized.cards, prizes: normalized.prizes, called, purchased, closedPrizes, sourceName: typeof value.sourceName === 'string' ? value.sourceName.slice(0, 120) : 'JSON importado' };
   } catch { return null; }
 }
 

@@ -25,7 +25,10 @@ function renderBallBoard(state) {
   board.replaceChildren();
   for (const letter of COLUMNS) {
     const column = element('div', 'ball-column');
-    const header = element('div', `ball-column-head column-${letter.toLowerCase()}`, letter);
+    const isClosed = Object.hasOwn(state.closedPrizes, letter);
+    const header = element('div', `ball-column-head column-${letter.toLowerCase()} ${isClosed ? 'column-closed' : ''}`);
+    header.append(element('span', 'column-letter', letter));
+    if (isClosed) header.append(element('small', 'column-closed-badge', 'Prêmio encerrado'));
     column.append(header);
     const list = element('div', 'ball-list');
     const [from, to] = COLUMN_RANGES[letter];
@@ -63,7 +66,13 @@ function renderPrizes(state) {
   for (const [key, prize] of Object.entries(state.prizes)) {
     const item = element('div', 'prize-item');
     const name = key === 'Cartela Cheia' ? 'Cartela cheia' : `Coluna ${key}`;
+    const isClosed = Object.hasOwn(state.closedPrizes, key);
+    item.classList.toggle('prize-closed', isClosed);
     item.append(element('span', 'prize-mark', key === 'Cartela Cheia' ? '✧' : key), element('span', 'prize-name', name), element('strong', 'prize-value', prize));
+    if (isClosed) {
+      const winnerId = state.closedPrizes[key];
+      item.append(element('small', 'prize-status', winnerId ? `Prêmio entregue • Cartela ${winnerId}` : 'Prêmio entregue'));
+    }
     list.append(item);
   }
 }
@@ -72,8 +81,8 @@ function renderNear(state) {
   const cards = state.cards.filter((card) => state.purchased.includes(card.id)).map((card) => ({ card, progress: cardProgress(card, state.called) }));
   const entries = [];
   for (const { card, progress } of cards) {
-    for (const column of progress.columns) if (column.remaining <= 2) entries.push({ id: card.id, type: 'column', label: `Coluna ${column.letter}`, remaining: column.remaining });
-    if (progress.fullRemaining <= 3) entries.push({ id: card.id, type: 'full', label: 'Cartela cheia', remaining: progress.fullRemaining });
+    for (const column of progress.columns) if (!Object.hasOwn(state.closedPrizes, column.letter) && column.remaining <= 2) entries.push({ id: card.id, type: 'column', label: `Coluna ${column.letter}`, remaining: column.remaining });
+    if (!Object.hasOwn(state.closedPrizes, 'Cartela Cheia') && progress.fullRemaining <= 3) entries.push({ id: card.id, type: 'full', label: 'Cartela cheia', remaining: progress.fullRemaining });
   }
   entries.sort((a, b) => a.remaining - b.remaining || a.id.localeCompare(b.id, 'pt-BR', { numeric: true }));
   const filtered = filter === 'all' ? entries : entries.filter((entry) => entry.type === filter);
@@ -81,7 +90,8 @@ function renderNear(state) {
   const host = document.getElementById('near-cards');
   host.replaceChildren();
   if (!filtered.length) {
-    const message = !state.purchased.length ? 'As cartelas compradas aparecerão aqui quando estiverem perto de ganhar.' : 'Ainda não há cartelas a uma ou duas bolas de um prêmio.';
+    const allPrizesClosed = Object.keys(state.prizes).length > 0 && Object.keys(state.prizes).every((key) => Object.hasOwn(state.closedPrizes, key));
+    const message = allPrizesClosed ? 'Todos os prêmios já foram entregues.' : !state.purchased.length ? 'As cartelas compradas aparecerão aqui quando estiverem perto de ganhar.' : 'Ainda não há cartelas a uma ou duas bolas de um prêmio disponível.';
     host.append(element('div', 'near-empty', message));
     return;
   }

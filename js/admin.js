@@ -1,4 +1,4 @@
-import { COLUMNS, COLUMN_RANGES, TOTAL_BALLS, normalizeProject } from './bingo-domain.js';
+import { COLUMNS, COLUMN_RANGES, TOTAL_BALLS, cardProgress, normalizeProject } from './bingo-domain.js';
 import { getState, initialize, subscribe, update } from './store.js';
 import { element, formatBall, showToast } from './ui.js';
 
@@ -15,6 +15,7 @@ function render(state) {
   document.getElementById('load-status').textContent = `${state.cards.length} cartelas carregadas`;
   document.getElementById('loaded-source').textContent = `● ${state.sourceName}`;
   renderBoard(state);
+  renderPrizeAdmin(state);
   renderCardList(state);
 }
 
@@ -22,7 +23,11 @@ function renderBoard(state) {
   board.replaceChildren();
   for (const letter of COLUMNS) {
     const group = element('div', 'ball-column');
-    group.append(element('div', `ball-column-head column-${letter.toLowerCase()}`, letter));
+    const isClosed = Object.hasOwn(state.closedPrizes, letter);
+    const header = element('div', `ball-column-head column-${letter.toLowerCase()} ${isClosed ? 'column-closed' : ''}`);
+    header.append(element('span', 'column-letter', letter));
+    if (isClosed) header.append(element('small', 'column-closed-badge', 'Prêmio encerrado'));
+    group.append(header);
     const list = element('div', 'ball-list');
     const [start, end] = COLUMN_RANGES[letter];
     for (let number = start; number <= end; number += 1) {
@@ -37,6 +42,53 @@ function renderBoard(state) {
     group.append(list);
     board.append(group);
   }
+}
+
+function renderPrizeAdmin(state) {
+  const host = document.getElementById('prize-admin-list');
+  host.replaceChildren();
+  for (const [key, prize] of Object.entries(state.prizes)) {
+    const winnerId = Object.hasOwn(state.closedPrizes, key) ? state.closedPrizes[key] : null;
+    const category = key === 'Cartela Cheia' ? 'Cartela cheia' : `Coluna ${key}`;
+    const row = element('div', `prize-admin-row ${winnerId !== null ? 'is-prize-closed' : ''}`);
+    const info = element('div', 'prize-admin-info');
+    info.append(element('strong', '', category), element('span', '', prize));
+    const action = element('button', `button ${winnerId !== null ? 'button-quiet' : 'button-primary'} prize-admin-action`, winnerId !== null ? 'Reabrir prêmio' : 'Marcar como entregue');
+    action.type = 'button';
+    if (winnerId !== null) {
+      const statusText = winnerId ? `Entregue · cartela ${winnerId}` : 'Entregue';
+      row.append(info, element('span', 'prize-admin-status', statusText), action);
+      action.addEventListener('click', () => {
+        update((draft) => { delete draft.closedPrizes[key]; return draft; });
+        showToast(`${category} reaberta.`);
+      });
+    } else {
+      const input = element('input', 'prize-winner-input');
+      input.type = 'text';
+      input.inputMode = 'numeric';
+      input.maxLength = 40;
+      input.placeholder = 'Nº da cartela (opcional)';
+      input.setAttribute('aria-label', `Cartela vencedora de ${category}`);
+      row.append(info, input, action);
+      action.addEventListener('click', () => closePrize(key, category, input.value));
+    }
+    host.append(row);
+  }
+}
+
+function closePrize(key, category, rawWinnerId) {
+  const winnerId = rawWinnerId.trim();
+  const state = getState();
+  if (winnerId) {
+    const card = state.cards.find((item) => item.id.toLocaleLowerCase('pt-BR') === winnerId.toLocaleLowerCase('pt-BR'));
+    if (!card) return showToast(`A cartela ${winnerId.slice(0, 40)} não está neste jogo.`, 'error');
+    if (!state.purchased.includes(card.id)) return showToast(`A cartela ${card.id} não está marcada como comprada.`, 'error');
+    const progress = cardProgress(card, state.called);
+    const completed = key === 'Cartela Cheia' ? progress.fullRemaining === 0 : progress.columns.find((column) => column.letter === key)?.remaining === 0;
+    if (!completed) return showToast(`A cartela ${card.id} ainda não completou ${category}.`, 'error');
+  }
+  update((draft) => { draft.closedPrizes[key] = winnerId; return draft; });
+  showToast(`${category} marcada como entregue.`);
 }
 
 function renderCardList(state) {
@@ -115,7 +167,7 @@ document.getElementById('json-file').addEventListener('change', async (event) =>
     if (file.size > 8 * 1024 * 1024) throw new Error('O arquivo JSON excede o limite de 8 MB.');
     const project = normalizeProject(JSON.parse(await file.text()));
     if (!window.confirm(`Importar ${project.cards.length} cartelas de “${file.name}”? As cartelas, compras e bolas do jogo atual serão substituídas.`)) return;
-    update((draft) => ({ ...draft, cards: project.cards, prizes: project.prizes, called: [], purchased: [], sourceName: file.name, gameName: file.name.replace(/\.json$/i, '').slice(0, 80) || 'Novo jogo' }));
+    update((draft) => ({ ...draft, cards: project.cards, prizes: project.prizes, called: [], purchased: [], closedPrizes: {}, sourceName: file.name, gameName: file.name.replace(/\.json$/i, '').slice(0, 80) || 'Novo jogo' }));
     document.getElementById('loaded-source').textContent = '● JSON importado';
     showToast(`${project.cards.length} cartelas importadas. O jogo foi reiniciado.`);
   } catch (error) {
@@ -125,7 +177,7 @@ document.getElementById('json-file').addEventListener('change', async (event) =>
 
 document.getElementById('new-game').addEventListener('click', () => {
   if (!window.confirm('Começar um novo jogo? As bolas chamadas e cartelas compradas serão apagadas. As cartelas e os prêmios atuais serão mantidos.')) return;
-  update((draft) => { draft.called = []; draft.purchased = []; return draft; });
+  update((draft) => { draft.called = []; draft.purchased = []; draft.closedPrizes = {}; return draft; });
   showToast('Novo jogo iniciado.');
 });
 
