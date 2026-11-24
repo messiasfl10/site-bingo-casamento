@@ -1,6 +1,6 @@
 # 1.0.0 • 24 de novembro de 2026
 
-Primeira versão do Bingo do Casamento, em HTML, CSS e JavaScript estáticos.
+Primeira versão do Bingo dos Noivos, em HTML, CSS e JavaScript estáticos.
 
 ## Funcionalidades
 

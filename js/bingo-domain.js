@@ -43,7 +43,7 @@ function normalizePrizes(prizes) {
 
 export function makeInitialState(project) {
   const normalized = normalizeProject(project);
-  return { version: 1, gameName: 'Bingo do casamento', cards: normalized.cards, prizes: normalized.prizes, called: [], purchased: [], sourceName: 'inputs/bingo_card_500_official.json' };
+  return { version: 1, gameName: 'Bingo dos Noivos', cards: normalized.cards, prizes: normalized.prizes, called: [], purchased: [], sourceName: 'inputs/bingo_card_500_official.json' };
 }
 
 export function cleanState(value) {
@@ -53,7 +53,9 @@ export function cleanState(value) {
     const ids = new Set(normalized.cards.map((card) => card.id));
     const called = [...new Set(value.called.filter((number) => Number.isInteger(number) && number >= 1 && number <= TOTAL_BALLS))];
     const purchased = [...new Set(value.purchased.map(String).filter((id) => ids.has(id)))];
-    return { version: 1, gameName: typeof value.gameName === 'string' ? value.gameName.slice(0, 80) : 'Bingo do casamento', cards: normalized.cards, prizes: normalized.prizes, called, purchased, sourceName: typeof value.sourceName === 'string' ? value.sourceName.slice(0, 120) : 'JSON importado' };
+    const savedName = typeof value.gameName === 'string' ? value.gameName.slice(0, 80) : 'Bingo dos Noivos';
+    const gameName = savedName === 'Bingo do casamento' ? 'Bingo dos Noivos' : savedName;
+    return { version: 1, gameName, cards: normalized.cards, prizes: normalized.prizes, called, purchased, sourceName: typeof value.sourceName === 'string' ? value.sourceName.slice(0, 120) : 'JSON importado' };
   } catch { return null; }
 }
 
