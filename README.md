@@ -11,7 +11,7 @@ Aplicação estática em HTML, CSS e JavaScript para acompanhar e gerenciar o bi
 
 ## Executar
 
-Abra a pasta `bingo` por um servidor HTTP local. Por exemplo, no VS Code, use a extensão Live Server e abra `bingo/index.html`. O JSON padrão fica em `../inputs/bingo_card_500_official.json`, portanto o servidor deve servir a pasta raiz deste repositório para manter esse caminho acessível. Módulos JavaScript, `fetch` e câmera não funcionam de forma confiável ao abrir o HTML diretamente com `file://`.
+Sirva a pasta raiz do repositório por HTTP local. Por exemplo, no VS Code, use a extensão Live Server e abra `index.html`. O JSON padrão fica em `inputs/bingo_card_500_official.json`. Módulos JavaScript, `fetch` e câmera não funcionam de forma confiável ao abrir o HTML diretamente com `file://`.
 
 A câmera exige HTTPS ou `localhost` e depende do suporte do navegador à API `BarcodeDetector` para QR-Code. Se o navegador não oferecer essa API, o número da cartela pode ser digitado manualmente.
 
@@ -26,17 +26,16 @@ O estado é salvo no `localStorage` do navegador e sincronizado entre abas abert
 ## Estrutura
 
 ```text
-bingo/
-  index.html       painel público
-  admin.html       gerenciamento
-  css/bingo.css    tema e layout responsivo
-  js/
-    bingo-domain.js validação e regras de cartelas
-    store.js        estado persistente e sincronização entre abas
-    dashboard.js   renderização do painel público
-    admin.js        ações administrativas e leitor de QR
-    ui.js           utilitários de interface
-  releases/         notas por versão
+index.html        painel público
+admin.html        gerenciamento
+css/bingo.css     tema e layout responsivo
+js/
+  bingo-domain.js  validação e regras de cartelas
+  store.js         estado persistente e sincronização entre abas
+  dashboard.js     renderização do painel público
+  admin.js         ações administrativas e leitor de QR
+  ui.js            utilitários de interface
+releases/          notas por versão
 ```
 
 ## Privacidade e segurança

@@ -1,7 +1,7 @@
 import { cleanState, makeInitialState } from './bingo-domain.js';
 
 const STORAGE_KEY = 'livia-messias-bingo-v1';
-const DEFAULT_JSON = new URL('../../inputs/bingo_card_500_official.json', import.meta.url);
+const DEFAULT_JSON = new URL('../inputs/bingo_card_500_official.json', import.meta.url);
 let current = null;
 const listeners = new Set();
 
