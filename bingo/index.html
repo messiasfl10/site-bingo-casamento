@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#5b1166" />
+    <meta name="description" content="Acompanhe em tempo real o bingo do casamento de Lívia e Messias." />
+    <title>Bingo do Casamento • Lívia &amp; Messias</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/bingo.css" />
+    <script type="module" src="js/dashboard.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="index.html" aria-label="Bingo do casamento, início"><span class="brand-mark">L<span>&amp;</span>M</span><span class="brand-copy">Bingo do casamento<small>Lívia &amp; Messias</small></span></a>
+      <nav class="topnav" aria-label="Navegação principal"><a class="active" href="index.html">Acompanhar</a><a href="admin.html">Gerenciar bingo <span aria-hidden="true">↗</span></a></nav>
+    </header>
+    <main class="page-shell">
+      <section class="hero-row">
+        <div><p class="eyebrow">UMA NOITE PARA CELEBRAR</p><h1>Bingo do casamento</h1><p class="hero-subtitle">Acompanhe as bolas chamadas e veja quem está pertinho de ganhar.</p></div>
+        <div class="game-pill"><span class="live-dot"></span><span id="game-label">Jogo pronto</span></div>
+      </section>
+      <section class="stats-row" aria-label="Resumo do jogo">
+        <article class="stat-card"><span class="stat-icon">◉</span><div><span class="stat-label">Bolas chamadas</span><strong id="called-count">0 <small>/ 75</small></strong></div></article>
+        <article class="stat-card"><span class="stat-icon ticket-icon">▦</span><div><span class="stat-label">Cartelas válidas</span><strong id="valid-count">0 <small>/ 0</small></strong></div></article>
+        <article class="stat-card"><span class="stat-icon prize-icon">✧</span><div><span class="stat-label">Prêmios</span><strong id="prize-count">6</strong></div></article>
+      </section>
+      <section class="content-grid">
+        <div class="main-column">
+          <section class="panel board-panel">
+            <div class="section-heading"><div><p class="eyebrow">PAINEL DE NÚMEROS</p><h2>Bolas do bingo</h2></div><span class="hint"><span class="legend-dot called"></span> Chamadas <span class="legend-dot"></span> A chamar</span></div>
+            <div id="ball-board" class="ball-board" aria-label="Bolas organizadas por coluna"></div>
+          </section>
+          <section class="panel near-panel">
+            <div class="section-heading"><div><p class="eyebrow">EM BUSCA DO PRÓXIMO PRÊMIO</p><h2>Cartelas no páreo</h2></div><span id="near-total" class="count-badge">0 cartelas</span></div>
+            <div class="near-tabs" role="tablist" aria-label="Filtrar cartelas"><button class="near-tab selected" data-filter="all" role="tab" aria-selected="true">Todas</button><button class="near-tab" data-filter="column" role="tab" aria-selected="false">Colunas</button><button class="near-tab" data-filter="full" role="tab" aria-selected="false">Cartela cheia</button></div>
+            <div id="near-cards" class="near-cards"></div>
+          </section>
+        </div>
+        <aside class="side-column">
+          <section class="panel latest-panel"><div class="section-heading"><div><p class="eyebrow">ACABOU DE SAIR</p><h2>Últimas bolas</h2></div><span class="sparkle">✧</span></div><div id="latest-ball" class="latest-ball empty"><span>—</span><small>À espera da primeira bola</small></div><ol id="recent-list" class="recent-list"></ol><div id="called-empty" class="empty-note">As bolas chamadas aparecem aqui.</div></section>
+          <section class="panel prizes-panel"><div class="section-heading"><div><p class="eyebrow">ALEGRIA EM CADA RODADA</p><h2>Prêmios</h2></div></div><div id="prize-list" class="prize-list"></div></section>
+          <p class="side-note">Cartelas compradas participam dos prêmios. Boa sorte! <span>♡</span></p>
+        </aside>
+      </section>
+      <footer class="page-footer">Feito com carinho para celebrar <span>♡</span></footer>
+    </main>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
