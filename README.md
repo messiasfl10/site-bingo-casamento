@@ -1,4 +1,4 @@
-# Bingo do casamento • Lívia & Messias
+# Bingo do casamento • Livia & Messias
 
 Aplicação estática em HTML, CSS e JavaScript para acompanhar e gerenciar o bingo do casamento. Não usa servidor de aplicação, banco de dados, login ou serviços externos.
 
