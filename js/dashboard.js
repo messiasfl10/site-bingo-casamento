@@ -3,15 +3,80 @@ import { getState, initialize, subscribe, subscribeConnection } from './store.js
 import { element, formatBall } from './ui.js';
 
 let filter = 'all';
+let hasObservedWinningClaims = false;
+let previousWinningClaims = new Set();
+let celebrationTimer;
+let announcementTimer;
 const board = document.getElementById('ball-board');
 const simplifiedViewToggle = document.getElementById('simplified-view');
+const celebration = createCelebrationLayer();
+const bingoAnnouncement = document.getElementById('bingo-announcement');
 
 simplifiedViewToggle.addEventListener('change', () => {
   document.body.classList.toggle('is-simplified', simplifiedViewToggle.checked);
 });
 
+function createCelebrationLayer() {
+  const layer = element('div', 'bingo-celebration');
+  layer.id = 'bingo-celebration';
+  layer.setAttribute('aria-hidden', 'true');
+
+  const fireworks = element('div', 'celebration-fireworks');
+  for (const name of ['one', 'two', 'three']) fireworks.append(element('span', `celebration-firework firework-${name}`));
+  layer.append(fireworks);
+
+  const tickets = element('div', 'celebration-tickets');
+  for (let ticketIndex = 0; ticketIndex < 5; ticketIndex += 1) {
+    const ticket = element('div', `celebration-ticket ticket-${ticketIndex + 1}`);
+    ticket.append(element('span', 'celebration-ticket-head', 'B I N G O'));
+    const cells = element('div', 'celebration-ticket-grid');
+    for (let cellIndex = 0; cellIndex < 25; cellIndex += 1) {
+      const value = cellIndex === 12 ? '✦' : String(((ticketIndex * 13 + cellIndex * 7) % 75) + 1);
+      cells.append(element('span', cellIndex === 12 ? 'is-free' : '', value));
+    }
+    ticket.append(cells);
+    tickets.append(ticket);
+  }
+  layer.append(tickets, element('div', 'celebration-banner', 'BINGO!'));
+  document.body.append(layer);
+  return layer;
+}
+
+function winningClaims(state) {
+  const claims = new Set();
+  for (const card of state.cards) {
+    if (!state.purchased.includes(card.id)) continue;
+    const progress = cardProgress(card, state.called);
+    for (const column of progress.columns) {
+      if (column.remaining === 0 && !Object.hasOwn(state.closedPrizes, column.letter)) claims.add(`${card.id}:column:${column.letter}`);
+    }
+    if (progress.fullRemaining === 0 && !Object.hasOwn(state.closedPrizes, 'Cartela Cheia')) claims.add(`${card.id}:full`);
+  }
+  return claims;
+}
+
+function celebrateNewWinningClaims(state) {
+  const currentClaims = winningClaims(state);
+  const newClaims = [...currentClaims].filter((claim) => !previousWinningClaims.has(claim));
+  if (hasObservedWinningClaims && newClaims.length) playBingoCelebration();
+  previousWinningClaims = currentClaims;
+  hasObservedWinningClaims = true;
+}
+
+function playBingoCelebration() {
+  window.clearTimeout(celebrationTimer);
+  window.clearTimeout(announcementTimer);
+  celebration.classList.remove('is-active');
+  void celebration.offsetWidth;
+  celebration.classList.add('is-active');
+  bingoAnnouncement.textContent = 'Bingo! Uma ou mais cartelas completaram um prêmio.';
+  celebrationTimer = window.setTimeout(() => celebration.classList.remove('is-active'), 4800);
+  announcementTimer = window.setTimeout(() => { bingoAnnouncement.textContent = ''; }, 4800);
+}
+
 function render(state) {
   const viewState = state ?? { cards: [], prizes: {}, called: [], purchased: [], closedPrizes: {} };
+  if (state) celebrateNewWinningClaims(state);
   setStat('called-count', viewState.called.length, TOTAL_BALLS);
   setStat('valid-count', viewState.purchased.length, viewState.cards.length);
   document.getElementById('prize-count').textContent = String(Object.keys(viewState.prizes).length);

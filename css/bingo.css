@@ -409,3 +409,49 @@ button:disabled { cursor: not-allowed; opacity: .55; }
 @media (min-width: 1200px) and (max-height: 900px) {
   .dashboard-page.is-simplified .ball { font-size: 11px; }
 }
+
+.bingo-celebration { position: fixed; inset: 0; z-index: 20; overflow: hidden; visibility: hidden; pointer-events: none; }
+.bingo-celebration.is-active { visibility: visible; }
+.celebration-fireworks, .celebration-tickets { position: absolute; inset: 0; }
+.celebration-firework { position: absolute; width: 1px; height: 1px; }
+.firework-one { top: 31%; left: 24%; --spark-color: #d9a743; }
+.firework-two { top: 24%; left: 72%; --spark-color: #9b55a4; }
+.firework-three { top: 43%; left: 51%; --spark-color: #d88a69; }
+.celebration-firework::before { position: absolute; inset: -64px; content: ""; background: repeating-conic-gradient(var(--spark-color) 0deg 3deg, transparent 4deg 24deg); -webkit-mask: radial-gradient(circle, transparent 0 10%, #000 13% 55%, transparent 59%); mask: radial-gradient(circle, transparent 0 10%, #000 13% 55%, transparent 59%); opacity: 0; transform: scale(.12); }
+.bingo-celebration.is-active .firework-one::before { animation: bingo-firework-burst 1.2s .1s ease-out both; }
+.bingo-celebration.is-active .firework-two::before { animation: bingo-firework-burst 1.25s .45s ease-out both; }
+.bingo-celebration.is-active .firework-three::before { animation: bingo-firework-burst 1.2s .72s ease-out both; }
+.celebration-ticket { position: absolute; bottom: -160px; left: var(--ticket-left); width: clamp(74px, 9vw, 112px); padding: 7px; border: 1px solid #d9bd7b; border-radius: 8px; color: #593363; background: #fffdf8; box-shadow: 0 9px 24px rgba(54, 27, 61, .2); opacity: 0; transform: rotate(var(--ticket-tilt)); }
+.ticket-1 { --ticket-left: 8%; --ticket-tilt: -12deg; }
+.ticket-2 { --ticket-left: 27%; --ticket-tilt: 9deg; }
+.ticket-3 { --ticket-left: 47%; --ticket-tilt: -5deg; }
+.ticket-4 { --ticket-left: 68%; --ticket-tilt: 13deg; }
+.ticket-5 { --ticket-left: 86%; --ticket-tilt: -9deg; }
+.bingo-celebration.is-active .ticket-1 { animation: bingo-ticket-rise 3.8s .08s ease-out both; }
+.bingo-celebration.is-active .ticket-2 { animation: bingo-ticket-rise 3.8s .24s ease-out both; }
+.bingo-celebration.is-active .ticket-3 { animation: bingo-ticket-rise 3.8s .4s ease-out both; }
+.bingo-celebration.is-active .ticket-4 { animation: bingo-ticket-rise 3.8s .56s ease-out both; }
+.bingo-celebration.is-active .ticket-5 { animation: bingo-ticket-rise 3.8s .72s ease-out both; }
+.celebration-ticket-head { display: block; margin-bottom: 5px; color: #765080; font-size: 8px; font-weight: 800; letter-spacing: .12em; text-align: center; }
+.celebration-ticket-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 2px; }
+.celebration-ticket-grid span { display: grid; aspect-ratio: 1; place-items: center; border: 1px solid #eee6ef; border-radius: 2px; color: #716a74; background: #fff; font-size: clamp(5px, .7vw, 8px); }
+.celebration-ticket-grid .is-free { color: #fff; background: #9763a0; }
+.celebration-banner { position: absolute; top: 50%; left: 50%; border: 1px solid rgba(221, 190, 119, .8); border-radius: 999px; padding: 14px 30px; color: #fff; background: linear-gradient(135deg, #7d3989, #50155b); box-shadow: 0 12px 36px rgba(51, 20, 58, .32); font-family: "Cormorant Garamond", Georgia, serif; font-size: clamp(30px, 6vw, 58px); font-weight: 700; letter-spacing: .12em; opacity: 0; transform: translate(-50%, -25%) scale(.55); }
+.bingo-celebration.is-active .celebration-banner { animation: bingo-banner-pop 1.8s .2s ease-out both; }
+@keyframes bingo-firework-burst { 0% { opacity: 0; transform: scale(.12) rotate(-18deg); } 25% { opacity: .9; } 100% { opacity: 0; transform: scale(1) rotate(14deg); } }
+@keyframes bingo-ticket-rise { 0% { opacity: 0; transform: translateY(0) rotate(var(--ticket-tilt)); } 14% { opacity: .96; } 78% { opacity: .92; } 100% { opacity: 0; transform: translateY(-125vh) rotate(calc(var(--ticket-tilt) + 20deg)); } }
+@keyframes bingo-banner-pop { 0% { opacity: 0; transform: translate(-50%, -25%) scale(.55); } 18% { opacity: 1; transform: translate(-50%, -50%) scale(1.06); } 30%, 74% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -62%) scale(.96); } }
+@media (max-width: 520px) {
+  .celebration-ticket { width: clamp(50px, 18vw, 76px); padding: 5px; }
+  .ticket-1 { --ticket-left: 2%; }
+  .ticket-2 { --ticket-left: 22%; }
+  .ticket-3 { --ticket-left: 42%; }
+  .ticket-4 { --ticket-left: 62%; }
+  .ticket-5 { --ticket-left: 82%; }
+  .celebration-banner { padding: 12px 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bingo-celebration.is-active .celebration-firework::before,
+  .bingo-celebration.is-active .celebration-ticket { animation: none; opacity: 0; }
+  .bingo-celebration.is-active .celebration-banner { animation: none; opacity: 1; transform: translate(-50%, -50%); }
+}
