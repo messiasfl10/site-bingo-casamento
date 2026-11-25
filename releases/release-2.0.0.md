@@ -1,6 +1,6 @@
 # Bingo dos Noivos • 2.0.0
 
-Lançada em 24 de novembro de 2026.
+Lançada em 24 de novembro de 2026. Notas atualizadas em 25 de novembro de 2026.
 
 ## Sincronização entre dispositivos
 
@@ -12,6 +12,14 @@ Lançada em 24 de novembro de 2026.
 - Histórico de ações em `audit_events` e retenção dos jogos importados anteriormente.
 - Migração SQL e tutorial de configuração em `supabase/migrations/` e `docs/CONFIGURAR_SUPABASE.md`.
 - Logo pequena do casamento e crédito de desenvolvimento com link para GitHub no rodapé público e nos acessos da equipe.
+
+## Painel público
+
+- Controle para alternar entre a visualização detalhada, padrão, e a simplificada.
+- A visão simplificada destaca o painel de bolas, as últimas chamadas, as cartelas no páreo e os prêmios em cards.
+- No desktop, **Últimas bolas** e **Prêmios** ficam empilhadas ao lado de **Cartelas no páreo**; o card das cartelas acompanha a altura combinada das seções à esquerda. No mobile, o conteúdo segue em uma coluna.
+- A seção de últimas chamadas mantém a bola mais recente em destaque e mostra até seis bolas anteriores centralizadas.
+- A lista de cartelas próximas de ganhar considera apenas cartelas compradas e prêmios ainda disponíveis.
 
 ## Configuração necessária
 

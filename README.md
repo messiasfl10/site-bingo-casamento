@@ -24,6 +24,10 @@ Na primeira configuração, uma pessoa administradora entra em `admin.html` e se
 
 O painel público consulta o jogo ativo sem login. Vendedores entram em `vender.html`; administradores entram em `admin.html`. Vendedores só podem registrar compras. A administração também controla bolas, prêmios, importação, remoção de cartelas e início de jogo. Atualizações são transmitidas entre os dispositivos conectados pelo Supabase Realtime.
 
+### Visualizações do painel público
+
+A página inicial abre por padrão na visualização detalhada, com estatísticas, painel de bolas, últimas chamadas, cartelas no páreo e prêmios. O controle **Visualização simplificada** oculta as estatísticas e organiza o conteúdo em cards: no desktop, o painel de bolas ocupa a primeira linha; abaixo, **Últimas bolas** e **Prêmios** ficam empilhadas à esquerda, enquanto **Cartelas no páreo** ocupa a coluna da direita. No mobile, os cards ficam em sequência vertical. As últimas chamadas incluem a bola em destaque e até seis chamadas anteriores. Em qualquer visualização, só cartelas compradas aparecem entre as que estão próximas de ganhar.
+
 O banco guarda grades das cartelas, bolas chamadas, compras, prêmios encerrados e eventos de auditoria. O navegador mantém a sessão de autenticação da equipe; o estado oficial do bingo fica no Supabase. A leitura do painel público expõe os dados das cartelas do jogo ativo usados para calcular as chances, mas não guarda nomes de compradores.
 
 ## Prévia ao compartilhar
