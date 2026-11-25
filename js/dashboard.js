@@ -53,8 +53,9 @@ function renderLatest(state) {
   feature.append(element('small', '', latest.length ? 'Última bola chamada' : 'À espera da primeira bola'));
   const list = document.getElementById('recent-list');
   list.replaceChildren();
-  for (const number of latest.slice(1, 6)) {
+  for (const number of latest.slice(1, 7)) {
     const item = element('li', 'recent-item');
+    item.setAttribute('aria-label', `${formatBall(number)} chamada`);
     item.append(element('span', 'recent-number', formatBall(number)), element('span', 'recent-label', 'Bola chamada'));
     list.append(item);
   }
