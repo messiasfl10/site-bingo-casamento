@@ -1,4 +1,4 @@
-import { COLUMNS, COLUMN_RANGES, TOTAL_BALLS, cardProgress, normalizeProject } from './bingo-domain.js';
+import { COLUMNS, COLUMN_RANGES, PRIZE_CATEGORIES, TOTAL_BALLS, cardProgress, normalizeProject } from './bingo-domain.js';
 import {
   callBall, clearCalledBalls, closePrize as closePrizeInStore, deleteAvailableCard, purchaseCard,
   getState, importGame, initialize, reopenPrize, startNewGame, subscribe,
@@ -59,7 +59,9 @@ function renderPrizeAdmin(state) {
   const host = document.getElementById('prize-admin-list');
   host.replaceChildren();
   if (!state) { host.append(element('div', 'list-empty', 'Importe o JSON para carregar os prêmios.')); return; }
-  for (const [key, prize] of Object.entries(state.prizes)) {
+  for (const key of PRIZE_CATEGORIES) {
+    const prize = state.prizes[key];
+    if (!prize) continue;
     const winnerId = Object.hasOwn(state.closedPrizes, key) ? state.closedPrizes[key] : null;
     const category = key === 'Cartela Cheia' ? 'Cartela cheia' : `Coluna ${key}`;
     const row = element('div', `prize-admin-row ${winnerId !== null ? 'is-prize-closed' : ''}`);

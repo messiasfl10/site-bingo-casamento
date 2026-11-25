@@ -1,4 +1,4 @@
-import { COLUMNS, COLUMN_RANGES, cardProgress, TOTAL_BALLS } from './bingo-domain.js';
+import { COLUMNS, COLUMN_RANGES, PRIZE_CATEGORIES, cardProgress, TOTAL_BALLS } from './bingo-domain.js';
 import { getState, initialize, subscribe, subscribeConnection } from './store.js';
 import { element, formatBall } from './ui.js';
 
@@ -64,7 +64,9 @@ function renderLatest(state) {
 function renderPrizes(state) {
   const list = document.getElementById('prize-list');
   list.replaceChildren();
-  for (const [key, prize] of Object.entries(state.prizes)) {
+  for (const key of PRIZE_CATEGORIES) {
+    const prize = state.prizes[key];
+    if (!prize) continue;
     const item = element('div', 'prize-item');
     const name = key === 'Cartela Cheia' ? 'Cartela cheia' : `Coluna ${key}`;
     const isClosed = Object.hasOwn(state.closedPrizes, key);
