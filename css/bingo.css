@@ -327,7 +327,7 @@ button:disabled { cursor: not-allowed; opacity: .55; }
 @media (max-width: 680px) {
   .staff-page .topbar { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto; height: auto; min-height: 0; gap: 8px; padding-top: 10px; padding-bottom: 10px; }
   .staff-header-main { display: flex; gap: 8px; }
-  .staff-header-main .brand { gap: 8px; }
+  .staff-header-main .brand { gap: 12px; }
   .staff-header-main .brand-copy { font-size: 17px; }
   .staff-header-main .brand-copy small { font-size: 10px; }
   .staff-account { gap: 7px; }
