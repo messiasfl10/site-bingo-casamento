@@ -249,3 +249,19 @@ button:disabled { cursor: not-allowed; opacity: .55; }
   .staff-page .topnav { gap: 3px; flex-wrap: wrap; justify-content: flex-end; }
   .staff-page .topnav a { padding: 7px 8px; font-size: 10px; }
 }
+
+/* Alinha os dois pares de painéis do dashboard pela mesma altura de linha. */
+@media (min-width: 681px) {
+  .content-grid { grid-template-rows: auto auto auto; align-items: stretch; }
+  .content-grid > .main-column, .content-grid > .side-column { display: contents; }
+  .content-grid .board-panel { grid-column: 1; grid-row: 1; }
+  .content-grid .latest-panel { grid-column: 2; grid-row: 1; }
+  .content-grid .near-panel { grid-column: 1; grid-row: 2; }
+  .content-grid .prizes-panel { grid-column: 2; grid-row: 2; }
+  .content-grid .side-note { grid-column: 2; grid-row: 3; }
+}
+
+@media (max-width: 680px) {
+  .content-grid > .main-column, .content-grid > .side-column { display: grid; }
+  .content-grid .board-panel, .content-grid .latest-panel, .content-grid .near-panel, .content-grid .prizes-panel, .content-grid .side-note { grid-column: auto; grid-row: auto; }
+}
