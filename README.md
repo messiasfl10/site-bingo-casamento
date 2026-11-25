@@ -67,3 +67,7 @@ releases/                  notas por versão
 ## Versões
 
 Consulte [notas de versão](releases/README.md). A versão atual é **2.0.0**.
+
+## Autoria
+
+Desenvolvido por **Messias D. P. de M. Filho**. GitHub: [github.com/messiasfl10](https://github.com/messiasfl10/).
