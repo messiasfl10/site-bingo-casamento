@@ -1,6 +1,6 @@
 # Bingo dos Noivos • 2.0.0
 
-Lançada em 24 de novembro de 2026. Notas atualizadas em 25 de novembro de 2026.
+Lançada em 25 de novembro de 2026.
 
 ## Sincronização entre dispositivos
 
