@@ -1,19 +1,20 @@
 import { COLUMNS, COLUMN_RANGES, cardProgress, TOTAL_BALLS } from './bingo-domain.js';
-import { getState, initialize, subscribe } from './store.js';
+import { getState, initialize, subscribe, subscribeConnection } from './store.js';
 import { element, formatBall } from './ui.js';
 
 let filter = 'all';
 const board = document.getElementById('ball-board');
 
 function render(state) {
-  setStat('called-count', state.called.length, TOTAL_BALLS);
-  setStat('valid-count', state.purchased.length, state.cards.length);
-  document.getElementById('prize-count').textContent = String(Object.keys(state.prizes).length);
-  document.getElementById('game-label').textContent = state.called.length ? 'Jogo em andamento' : 'Jogo pronto';
-  renderBallBoard(state);
-  renderLatest(state);
-  renderPrizes(state);
-  renderNear(state);
+  const viewState = state ?? { cards: [], prizes: {}, called: [], purchased: [], closedPrizes: {} };
+  setStat('called-count', viewState.called.length, TOTAL_BALLS);
+  setStat('valid-count', viewState.purchased.length, viewState.cards.length);
+  document.getElementById('prize-count').textContent = String(Object.keys(viewState.prizes).length);
+  document.getElementById('game-label').textContent = state ? (state.called.length ? 'Jogo em andamento' : 'Jogo pronto') : 'Jogo ainda não configurado';
+  renderBallBoard(viewState);
+  renderLatest(viewState);
+  renderPrizes(viewState);
+  renderNear(viewState);
 }
 
 function setStat(id, current, total) {
@@ -109,7 +110,19 @@ document.querySelectorAll('.near-tab').forEach((button) => button.addEventListen
   render(getState());
 }));
 
-initialize().then((state) => { render(state); subscribe(render); }).catch((error) => {
+initialize().then((state) => {
+  render(state);
+  subscribe(render);
+  subscribeConnection((status) => {
+    const label = document.getElementById('game-label');
+    if (status === 'disconnected') label.textContent = 'Sem conexão • dados podem estar desatualizados';
+    else if (status === 'connecting') label.textContent = 'Conectando ao jogo…';
+    else {
+      const current = getState();
+      label.textContent = current ? (current.called.length ? 'Jogo em andamento' : 'Jogo pronto') : 'Jogo ainda não configurado';
+    }
+  });
+}).catch((error) => {
   document.getElementById('game-label').textContent = 'Não foi possível carregar o jogo';
   document.getElementById('near-cards').textContent = error.message;
 });

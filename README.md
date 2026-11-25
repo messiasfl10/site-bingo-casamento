@@ -1,62 +1,69 @@
 # Bingo dos Noivos • Livia & Messias
 
-Aplicação estática em HTML, CSS e JavaScript para acompanhar e gerenciar o Bingo dos Noivos. Não usa servidor de aplicação, banco de dados, login ou serviços externos.
+Aplicação estática em HTML, CSS e JavaScript para acompanhar e gerenciar o Bingo dos Noivos. O site pode ser hospedado no GitHub Pages; Supabase centraliza o jogo e sincroniza os dispositivos; Cloudflare Turnstile protege o acesso da equipe contra tentativas automatizadas.
 
-**Versão:** 1.0.0
+**Versão:** 2.0.0
 
 ## Páginas
 
-- `index.html`: painel público com as 75 bolas por coluna, últimas chamadas, prêmios e cartelas compradas próximas de completar uma coluna ou a cartela cheia. Prêmios entregues aparecem como encerrados e deixam de contar como chances.
-- `admin.html`: importação de cartelas, registro e remoção de compras, leitura de QR-Code, chamadas e desfazer chamadas, encerramento/reabertura de prêmios, exclusão de cartelas e início de um novo jogo.
+- `index.html`: painel público com bolas chamadas, últimas chamadas, prêmios e cartelas compradas próximas de completar um prêmio.
+- `admin.html`: gerenciamento protegido para importar jogos, controlar bolas, encerrar prêmios e administrar cartelas.
+- `vender.html`: tela simplificada para vendedores registrarem compras pelo QR-Code ou número da cartela.
+
+## Configuração e publicação
+
+Siga o [tutorial de configuração do Supabase e Turnstile](docs/CONFIGURAR_SUPABASE.md). Ele cobre a criação do projeto, a aplicação da migração SQL, as contas e papéis da equipe, as chaves, o widget Turnstile e a carga inicial do JSON.
+
+Configure `js/app-config.js` com a URL e a chave publishable do Supabase e a Site Key do Turnstile. Esses valores identificam o projeto e o widget; a proteção dos dados depende das regras RLS instaladas pela migração. **Nunca coloque uma chave secret/service role ou o segredo do Turnstile no JavaScript.**
+
+Para desenvolvimento, sirva a pasta por HTTP/HTTPS (por exemplo, com a extensão Live Server do VS Code) e permita `localhost` na lista de domínios do widget Turnstile. Não abra o site com `file://`. O site, o Supabase, o serviço Turnstile e a leitura de QR precisam de conexão com a internet durante a operação. Sem conexão, as gravações não são confirmadas nem armazenadas como vendas pendentes.
+
+## Como os dados funcionam
+
+Na primeira configuração, uma pessoa administradora entra em `admin.html` e seleciona **Carregar JSON padrão**. Para iniciar outro jogo, pode importar um JSON do gerador. Cada importação cria um novo jogo ativo atomicamente; os jogos anteriores e o histórico permanecem no banco.
+
+O painel público consulta o jogo ativo sem login. Vendedores entram em `vender.html`; administradores entram em `admin.html`. Vendedores só podem registrar compras. A administração também controla bolas, prêmios, importação, remoção de cartelas e início de jogo. Atualizações são transmitidas entre os dispositivos conectados pelo Supabase Realtime.
+
+O banco guarda grades das cartelas, bolas chamadas, compras, prêmios encerrados e eventos de auditoria. O navegador mantém a sessão de autenticação da equipe; o estado oficial do bingo fica no Supabase. A leitura do painel público expõe os dados das cartelas do jogo ativo usados para calcular as chances, mas não guarda nomes de compradores.
 
 ## Prévia ao compartilhar
 
-As páginas incluem metadados Open Graph e Twitter Cards para exibir título, descrição e imagem de capa ao compartilhar o endereço em aplicativos como o WhatsApp. A imagem está em `assets/images/cover/cover.jpg`; os endereços absolutos dos metadados apontam para a publicação padrão no GitHub Pages (`https://messiasfl10.github.io/site-bingo-casamento/`). Se o site for publicado em outro domínio, atualize `og:url`, `og:image` e `twitter:image` em `index.html` e `admin.html`. A prévia só poderá ser carregada após a publicação e pode demorar a atualizar por causa do cache do aplicativo.
+As páginas incluem metadados Open Graph e Twitter Cards para mostrar título, descrição e capa no WhatsApp e em outros aplicativos. A imagem fica em `assets/images/cover/cover.jpg`. Os metadados usam o endereço padrão do GitHub Pages (`https://messiasfl10.github.io/site-bingo-casamento/`); se o site mudar de domínio ou hospedagem, atualize `og:url`, `og:image` e `twitter:image` em `index.html` e `admin.html`. Aplicativos podem manter a prévia em cache depois da publicação.
 
-## Executar
+## Segurança
 
-Sirva a pasta raiz do repositório por HTTP local. Por exemplo, no VS Code, use a extensão Live Server e abra `index.html`. O JSON padrão fica em `inputs/bingo_card_500_official.json`. Módulos JavaScript, `fetch` e câmera não funcionam de forma confiável ao abrir o HTML diretamente com `file://`.
-
-A câmera exige HTTPS ou `localhost` e depende do suporte do navegador à API `BarcodeDetector` para QR-Code. Se o navegador não oferecer essa API, o número da cartela pode ser digitado manualmente.
-
-## Cartelas e jogo
-
-Na primeira abertura, o sistema carrega o JSON padrão. Na tela **Gerenciar bingo**, importe outro JSON para substituir as cartelas e os prêmios atuais. O formato aceito segue o gerador deste projeto e contém `cartelas`, cada uma com `id` e uma grade 5 × 5 (`linhas`) ou colunas `B`, `I`, `N`, `G`, `O`. Valores de bola devem ser inteiros de 1 a 75; `null` representa o centro livre.
-
-Uma cartela só concorre depois de ser marcada como comprada. O QR-Code pode conter o identificador isolado (por exemplo, `001`) ou texto/URL com o número. O painel de cartelas próximas considera somente cartelas compradas. Uma coluna aparece com até dois números faltando; cartela cheia aparece com até três. Ao completar um prêmio, a interface destaca a cartela como **BINGO!**.
-
-Depois de confirmar a entrega de um prêmio, marque a categoria como entregue na página de gerenciamento. O painel público identifica a coluna encerrada, mostra a cartela vencedora quando informada e remove aquela categoria das chances de outras cartelas. O número da cartela vencedora é opcional; se preenchido, precisa estar comprada e ter completado o padrão com as bolas chamadas. Um novo jogo ou a importação de outro JSON reabre todas as categorias.
-
-O estado é salvo no `localStorage` do navegador e sincronizado entre abas abertas na mesma origem. Limpar os dados do navegador apaga o jogo. O estado não é compartilhado com outros dispositivos; para uma operação com vários aparelhos é necessário adicionar armazenamento/sincronização no servidor. Exporte ou preserve o JSON original para manter uma cópia das cartelas.
+- RLS permite leitura pública apenas do jogo ativo e restringe gravações às funções RPC com papéis de equipe.
+- As permissões `admin` e `seller` ficam em `staff_members`; não há cadastro público de equipe.
+- As RPCs conferem papel e invariantes no banco e executam cada mudança como uma transação. Isso evita atualizações concorrentes perderem vendas, chamadas ou importações.
+- Turnstile protege o login da equipe integrado ao Supabase Auth. Ele não substitui a autorização por papel nem as políticas RLS.
+- O cliente usa somente a chave publishable. Segredos do Supabase e do Turnstile permanecem nos respectivos painéis de serviço.
+- Conteúdo vindo de cartelas e arquivos é criado com nós DOM e `textContent`; não é interpolado em `innerHTML`.
+- O acesso à câmera pede somente vídeo e encerra a captura ao fechar o leitor ou sair da página.
 
 ## Estrutura
 
 ```text
-index.html        painel público
-admin.html        gerenciamento
-css/bingo.css     tema e layout responsivo
-assets/images/brand/
-  couple-logo-primary.svg logo principal exibido no cabeçalho
-  couple-logo-*.svg       variações de cor da identidade visual
-assets/images/cover/
-  cover.jpg               imagem usada na prévia de compartilhamento
-js/
-  bingo-domain.js  validação e regras de cartelas
-  store.js         estado persistente e sincronização entre abas
-  dashboard.js     renderização do painel público
-  admin.js         ações administrativas e leitor de QR
-  ui.js            utilitários de interface
-releases/          notas por versão
+index.html                 painel público
+admin.html                 administração autenticada
+vender.html                registro de vendas para a equipe
+css/bingo.css              tema e layout responsivo
+assets/images/brand/       variações do logo
+assets/images/cover/       imagem para prévia de compartilhamento
+inputs/                    JSON padrão de cartelas
+js/app-config.js           URL/chave pública do Supabase e Site Key do Turnstile
+js/supabase-client.js      cliente Supabase
+js/store.js                leitura, sincronização e comandos de dados
+js/staff-auth.js           autenticação e proteção das páginas da equipe
+js/bingo-domain.js         validação e regras de cartelas
+js/dashboard.js            renderização do painel público
+js/admin.js                ações administrativas
+js/seller.js               registro de vendas e leitor QR
+js/ui.js                   utilitários de interface
+supabase/migrations/       tabelas, RLS e RPCs
+docs/                      tutoriais de configuração
+releases/                  notas por versão
 ```
-
-## Privacidade e segurança
-
-- Os dados do bingo ficam no navegador, sem envio a uma API.
-- JSON importado é validado antes de substituir o jogo. IDs, dimensões da grade e números são conferidos.
-- Conteúdo vindo de cartelas e arquivos é apresentado com `textContent` e nós DOM; não é interpolado em `innerHTML`.
-- O leitor solicita apenas vídeo da câmera, sem áudio, e encerra a captura ao fechar a câmera ou sair da página.
-- O acesso de gerenciamento é apenas uma divisão de interface, não uma barreira de autorização. Não publique informações sensíveis esperando que essa página seja privada.
 
 ## Versões
 
-Consulte [notas de versão](releases/README.md). A versão atual é a **1.0.0**.
+Consulte [notas de versão](releases/README.md). A versão atual é **2.0.0**.

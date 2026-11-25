@@ -24,6 +24,10 @@ export function normalizeProject(project) {
       if (values.length !== 5 || values.some((value) => value !== null && (!Number.isInteger(value) || value < 1 || value > TOTAL_BALLS))) {
         throw new Error(`A cartela ${id} tem números inválidos na coluna ${letter}.`);
       }
+      const [minimum, maximum] = COLUMN_RANGES[letter];
+      if (values.some((value) => value !== null && (value < minimum || value > maximum))) {
+        throw new Error(`A cartela ${id} tem números fora da faixa da coluna ${letter}.`);
+      }
       columns[letter] = values;
     }
     const boardRows = rows.length === 5 ? rows.map((row) => row.slice(0, 5)) : Array.from({ length: 5 }, (_, r) => COLUMNS.map((letter) => columns[letter][r]));

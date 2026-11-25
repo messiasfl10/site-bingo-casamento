@@ -207,3 +207,41 @@ h1 { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 600; font-s
 @media (min-width: 1200px) and (max-height: 900px) {
   .dashboard-page .ball { font-size: 10px; }
 }
+
+/* Acesso da equipe e tela de vendas sincronizadas. */
+[hidden] { display: none !important; }
+.auth-gate { width: min(520px, 90%); margin: 7vh auto; }
+.auth-card, .seller-panel { border: 1px solid rgba(91,17,102,.07); border-radius: 14px; padding: 28px; background: rgba(255,255,255,.92); box-shadow: var(--shadow); }
+.auth-card h1 { font-size: clamp(30px, 4vw, 38px); }
+.staff-auth-form { display: grid; gap: 10px; margin-top: 22px; }
+.staff-auth-form label, .card-form > label { color: #716877; font-size: 11px; font-weight: 700; }
+.staff-auth-form input { width: 100%; min-height: 44px; border: 1px solid #e3d9e6; border-radius: 8px; padding: 9px 12px; color: var(--ink); background: #fff; font-size: 15px; }
+.staff-auth-form input:focus, .card-form input:focus { outline: 3px solid rgba(147,64,159,.16); border-color: #a66cad; }
+.turnstile-widget { min-height: 66px; display: flex; align-items: center; justify-content: flex-start; margin: 5px 0; color: var(--muted); font-size: 11px; }
+.auth-note { margin: 17px 0 0; color: var(--muted); font-size: 11px; line-height: 1.55; }
+.staff-role-label { color: #817687; font-size: 10px; }
+.staff-sign-out { min-height: 32px; padding-inline: 10px; }
+.auth-gate .feedback { min-height: 0; margin: 4px 0 0; }
+.auth-gate .feedback:empty { display: none; }
+.seller-shell { max-width: 850px; }
+.seller-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 560px; }
+.seller-panel { margin-top: 18px; }
+.seller-panel .section-heading { margin-bottom: 8px; }
+.seller-panel .scan-actions { margin: 18px 0; }
+.seller-panel .card-form { margin-top: 20px; }
+.seller-panel .feedback { min-height: 20px; margin-top: 12px; }
+.sync-status { display: inline-flex; margin-top: 10px; color: #77707e; font-size: 11px; }
+.sync-status.connected { color: #43865c; }
+.sync-status.disconnected { color: #a34a4a; }
+button:disabled { cursor: not-allowed; opacity: .55; }
+
+@media (max-width: 680px) {
+  .auth-gate { margin-top: 28px; }
+  .auth-card, .seller-panel { padding: 20px 17px; }
+  .staff-role-label { display: none; }
+  .seller-stats { gap: 9px; }
+  .seller-stats .stat-card { padding: 12px; }
+  .staff-page .topbar { height: auto; min-height: 76px; flex-wrap: wrap; gap: 8px; padding-top: 10px; padding-bottom: 10px; }
+  .staff-page .topnav { gap: 3px; flex-wrap: wrap; justify-content: flex-end; }
+  .staff-page .topnav a { padding: 7px 8px; font-size: 10px; }
+}
