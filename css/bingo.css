@@ -305,8 +305,6 @@ button:disabled { cursor: not-allowed; opacity: .55; }
   .topnav a { flex: 1 1 30%; padding: 8px 5px; text-align: center; font-size: 11px; }
   .staff-page .topbar { height: auto; min-height: 0; }
   .staff-page .topnav { justify-content: center; }
-  .staff-page .staff-role-label { display: block; flex: 1 0 100%; text-align: center; }
-  .staff-page .staff-sign-out { margin-inline: auto; }
   .hint { gap: 8px; }
   .hint .legend-dot, .hint .legend-dot.called { flex: 0 0 7px; width: 7px; height: 7px; margin: 0; }
   .latest-panel > .latest-ball small { left: 0; width: 100%; max-width: 100%; transform: none; line-height: 1.3; }
@@ -330,7 +328,7 @@ button:disabled { cursor: not-allowed; opacity: .55; }
   .staff-header-main .brand { gap: 12px; }
   .staff-header-main .brand-copy { font-size: 17px; }
   .staff-header-main .brand-copy small { font-size: 10px; }
-  .staff-account { gap: 7px; }
+  .staff-account { gap: 8px; }
   .staff-role-label { flex: 0 1 auto; max-width: 34vw; text-align: right; font-size: 10px; }
   .staff-sign-out { margin-inline: 0; }
 }
@@ -338,7 +336,7 @@ button:disabled { cursor: not-allowed; opacity: .55; }
 @media (max-width: 360px) {
   .staff-header-main .brand-copy { font-size: 15px; }
   .staff-header-main .brand-copy small { font-size: 10px; letter-spacing: .08em; }
-  .staff-account { gap: 4px; }
+  .staff-account { gap: 8px; }
   .staff-role-label { max-width: 96px; font-size: 9px; }
   .staff-sign-out { min-height: 30px; padding-inline: 8px; }
 }
@@ -349,7 +347,7 @@ button:disabled { cursor: not-allowed; opacity: .55; }
 
 @media (max-width: 680px) {
   .staff-page .staff-header-main { justify-content: space-between; }
-  .staff-page .staff-account { flex: 0 1 auto; justify-content: flex-end; margin-left: auto; }
+  .staff-page .staff-account { flex: 0 1 auto; justify-content: flex-end; column-gap: 8px; gap: 8px; margin-left: auto; }
   .staff-page .topnav { display: flex; width: 100%; justify-content: center; }
   .staff-page .topnav a { flex: 1 1 30%; min-width: 0; padding: 8px 5px; text-align: center; font-size: 11px; line-height: 1.2; white-space: normal; }
 }
