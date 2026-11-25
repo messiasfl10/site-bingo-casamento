@@ -298,7 +298,7 @@ button:disabled { cursor: not-allowed; opacity: .55; }
 .dashboard-page.is-simplified .content-grid .near-panel { grid-area: near; }
 .dashboard-page.is-simplified .content-grid .prizes-panel { grid-area: prizes; }
 .dashboard-page.is-simplified .content-grid { grid-template-areas: "board" "latest" "near" "prizes"; }
-.dashboard-page.is-simplified .latest-panel > .recent-list { grid-template-columns: repeat(3, 38px); column-gap: 8px; justify-content: start; }
+.dashboard-page.is-simplified .latest-panel > .recent-list { grid-template-columns: repeat(3, 38px); column-gap: 8px; justify-content: center; }
 .dashboard-page.is-simplified .near-cards { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
 .dashboard-page.is-simplified .prize-list { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; }
 .dashboard-page.is-simplified .prize-item { min-height: 50px; padding: 8px; border: 1px solid #f1e9f2; border-radius: 9px; background: #fcfafc; }
