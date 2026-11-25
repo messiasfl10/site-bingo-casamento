@@ -9,6 +9,10 @@ Aplicação estática em HTML, CSS e JavaScript para acompanhar e gerenciar o Bi
 - `index.html`: painel público com as 75 bolas por coluna, últimas chamadas, prêmios e cartelas compradas próximas de completar uma coluna ou a cartela cheia. Prêmios entregues aparecem como encerrados e deixam de contar como chances.
 - `admin.html`: importação de cartelas, registro e remoção de compras, leitura de QR-Code, chamadas e desfazer chamadas, encerramento/reabertura de prêmios, exclusão de cartelas e início de um novo jogo.
 
+## Prévia ao compartilhar
+
+As páginas incluem metadados Open Graph e Twitter Cards para exibir título, descrição e imagem de capa ao compartilhar o endereço em aplicativos como o WhatsApp. A imagem está em `assets/images/cover/cover.jpg`; os endereços absolutos dos metadados apontam para a publicação padrão no GitHub Pages (`https://messiasfl10.github.io/site-bingo-casamento/`). Se o site for publicado em outro domínio, atualize `og:url`, `og:image` e `twitter:image` em `index.html` e `admin.html`. A prévia só poderá ser carregada após a publicação e pode demorar a atualizar por causa do cache do aplicativo.
+
 ## Executar
 
 Sirva a pasta raiz do repositório por HTTP local. Por exemplo, no VS Code, use a extensão Live Server e abra `index.html`. O JSON padrão fica em `inputs/bingo_card_500_official.json`. Módulos JavaScript, `fetch` e câmera não funcionam de forma confiável ao abrir o HTML diretamente com `file://`.
@@ -34,6 +38,8 @@ css/bingo.css     tema e layout responsivo
 assets/images/brand/
   couple-logo-primary.svg logo principal exibido no cabeçalho
   couple-logo-*.svg       variações de cor da identidade visual
+assets/images/cover/
+  cover.jpg               imagem usada na prévia de compartilhamento
 js/
   bingo-domain.js  validação e regras de cartelas
   store.js         estado persistente e sincronização entre abas
