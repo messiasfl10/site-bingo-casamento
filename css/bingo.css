@@ -52,6 +52,8 @@ h1 { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 600; font-s
 .board-panel, .near-panel, .latest-panel, .prizes-panel { padding: 20px; }
 .section-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .section-heading h2 { font-family: "Cormorant Garamond", Georgia, serif; font-size: 23px; font-weight: 700; line-height: 1; }
+.board-title-line { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; }
+.board-called-count { display: none; align-items: center; border-radius: 20px; padding: 5px 8px; color: #75477c; background: #f5edf6; font-size: 9px; font-weight: 700; white-space: nowrap; }
 .section-heading .eyebrow { margin-bottom: 6px; font-size: 8px; }
 .hint { display: flex; align-items: center; gap: 6px; color: #928a96; font-size: 9px; white-space: nowrap; }
 .legend-dot { width: 6px; height: 6px; border-radius: 50%; background: #eee8ef; margin-left: 7px; }
@@ -294,6 +296,7 @@ button:disabled { cursor: not-allowed; opacity: .55; }
 .dashboard-page.is-simplified .content-grid .near-panel { grid-area: near; }
 .dashboard-page.is-simplified .content-grid .prizes-panel { grid-area: prizes; }
 .dashboard-page.is-simplified .content-grid { grid-template-areas: "board" "latest" "near" "prizes"; }
+.dashboard-page.is-simplified .board-called-count { display: inline-flex; }
 .dashboard-page.is-simplified .latest-panel { padding-bottom: 36px; }
 .dashboard-page.is-simplified .latest-panel > .recent-list { grid-template-columns: repeat(3, 38px); column-gap: 8px; justify-content: center; }
 .dashboard-page.is-simplified .near-cards { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }

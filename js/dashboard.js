@@ -78,6 +78,7 @@ function render(state) {
   const viewState = state ?? { cards: [], prizes: {}, called: [], purchased: [], closedPrizes: {} };
   if (state) celebrateNewWinningClaims(state);
   setStat('called-count', viewState.called.length, TOTAL_BALLS);
+  document.getElementById('board-called-count').textContent = `${viewState.called.length}/${TOTAL_BALLS} chamadas`;
   setStat('valid-count', viewState.purchased.length, viewState.cards.length);
   document.getElementById('prize-count').textContent = String(Object.keys(viewState.prizes).length);
   document.getElementById('game-label').textContent = state ? (state.called.length ? 'Jogo em andamento' : 'Jogo pronto') : 'Jogo ainda não configurado';
