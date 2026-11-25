@@ -1,8 +1,8 @@
 // Os valores abaixo são configurações públicas do cliente web, não senhas.
 // Configure a URL e a chave publishable do projeto Supabase e a Site Key do Turnstile.
-export const SUPABASE_URL = 'https://SEU-PROJETO.supabase.co';
-export const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_COLOQUE_A_CHAVE_AQUI';
-export const TURNSTILE_SITE_KEY = 'COLOQUE_A_SITE_KEY_AQUI';
+export const SUPABASE_URL = 'https://ztqmopfhjnypsiktwesp.supabase.co';
+export const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_Fo71vC1oQfdr9gPpMlyLMQ_g4PaEa8f';
+export const TURNSTILE_SITE_KEY = '0x4AAAAAAGRt5owTQ4wa5rnX';
 
 export function isSupabaseConfigured() {
   return SUPABASE_URL.startsWith('https://')
