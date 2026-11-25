@@ -6,7 +6,7 @@ Aplicação estática em HTML, CSS e JavaScript para acompanhar e gerenciar o Bi
 
 ## Páginas
 
-- `index.html`: painel público com bolas chamadas, últimas chamadas, prêmios e cartelas compradas próximas de completar um prêmio.
+- `index.html`: painel público com visualizações detalhada e simplificada, bolas chamadas, últimas chamadas, prêmios e cartelas compradas próximas de completar um prêmio.
 - `admin.html`: gerenciamento protegido para importar jogos, controlar bolas, encerrar prêmios e administrar cartelas.
 - `vender.html`: tela simplificada para vendedores registrarem compras pelo QR-Code ou número da cartela.
 

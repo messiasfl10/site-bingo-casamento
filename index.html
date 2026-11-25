@@ -24,7 +24,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.2"></script>
     <script type="module" src="js/dashboard.js"></script>
   </head>
-  <body>
+  <body class="dashboard-page">
     <header class="topbar">
       <a class="brand" href="index.html" aria-label="Bingo dos Noivos de Livia e Messias, início"><img class="brand-logo" src="assets/images/brand/couple-logo-primary.svg" alt="Logo principal de Livia e Messias" /><span class="brand-copy">Livia &amp; Messias<small>Bingo dos Noivos</small></span></a>
       <nav class="topnav" aria-label="Navegação principal"><a class="active" href="index.html">Acompanhar</a><a href="admin.html">Gerenciar bingo</a><a href="vender.html">Vender cartelas</a></nav>
@@ -32,14 +32,14 @@
     <main class="page-shell">
       <section class="hero-row">
         <div><p class="eyebrow">UMA NOITE PARA CELEBRAR</p><h1>Bingo dos Noivos</h1><p class="hero-subtitle">Acompanhe as bolas chamadas e veja quem está pertinho de ganhar.</p></div>
-        <div class="game-pill"><span class="live-dot"></span><span id="game-label">Jogo pronto</span></div>
+        <div class="dashboard-controls"><label class="view-toggle" for="simplified-view"><input id="simplified-view" type="checkbox" role="switch" aria-controls="content-grid" /><span class="view-switch-track" aria-hidden="true"><span></span></span><span>Visualização simplificada</span></label><div class="game-pill"><span class="live-dot"></span><span id="game-label">Jogo pronto</span></div></div>
       </section>
       <section class="stats-row" aria-label="Resumo do jogo">
         <article class="stat-card"><span class="stat-icon">◉</span><div><span class="stat-label">Bolas chamadas</span><strong id="called-count">0 <small>/ 75</small></strong></div></article>
         <article class="stat-card"><span class="stat-icon ticket-icon">▦</span><div><span class="stat-label">Cartelas válidas</span><strong id="valid-count">0 <small>/ 0</small></strong></div></article>
         <article class="stat-card"><span class="stat-icon prize-icon">✧</span><div><span class="stat-label">Prêmios</span><strong id="prize-count">6</strong></div></article>
       </section>
-      <section class="content-grid">
+      <section id="content-grid" class="content-grid">
         <div class="main-column">
           <section class="panel board-panel">
             <div class="section-heading"><div><p class="eyebrow">PAINEL DE NÚMEROS</p><h2>Bolas do bingo</h2></div><span class="hint"><span class="legend-dot called"></span> Chamadas <span class="legend-dot"></span> A chamar</span></div>

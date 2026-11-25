@@ -4,6 +4,11 @@ import { element, formatBall } from './ui.js';
 
 let filter = 'all';
 const board = document.getElementById('ball-board');
+const simplifiedViewToggle = document.getElementById('simplified-view');
+
+simplifiedViewToggle.addEventListener('change', () => {
+  document.body.classList.toggle('is-simplified', simplifiedViewToggle.checked);
+});
 
 function render(state) {
   const viewState = state ?? { cards: [], prizes: {}, called: [], purchased: [], closedPrizes: {} };
