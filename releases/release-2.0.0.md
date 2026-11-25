@@ -11,6 +11,7 @@ Lançada em 24 de novembro de 2026.
 - Políticas RLS e RPCs transacionais protegem vendas, chamadas, prêmios, importações e início de novos jogos.
 - Histórico de ações em `audit_events` e retenção dos jogos importados anteriormente.
 - Migração SQL e tutorial de configuração em `supabase/migrations/` e `docs/CONFIGURAR_SUPABASE.md`.
+- Logo pequena do casamento e crédito de desenvolvimento com link para GitHub no rodapé público e nos acessos da equipe.
 
 ## Configuração necessária
 
