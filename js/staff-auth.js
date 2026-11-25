@@ -20,6 +20,7 @@ export async function mountStaffGate(requiredRole, onAuthorized) {
   function setSignedOut(message = '') {
     authorizedUserId = null;
     resetTurnstile();
+    document.getElementById('staff-role-label').textContent = '';
     gate.hidden = false;
     app.hidden = true;
     signOut.hidden = true;
