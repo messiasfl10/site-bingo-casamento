@@ -300,6 +300,10 @@ button:disabled { cursor: not-allowed; opacity: .55; }
 
 /* Ajustes finais de leitura e navegação em telas pequenas. */
 @media (max-width: 680px) {
+  .latest-panel { grid-template-rows: auto auto; align-content: start; }
+  .latest-panel > .latest-ball { align-self: center; }
+  .latest-panel > .recent-list { align-self: center; transform: translateY(13px); }
+  .latest-panel > #called-empty { transform: translateY(13px); }
   .topbar { height: auto; min-height: 76px; flex-direction: column; align-items: stretch; gap: 8px; padding: 10px 5%; }
   .topnav { width: 100%; flex-wrap: wrap; justify-content: center; gap: 4px; }
   .topnav a { flex: 1 1 30%; padding: 8px 5px; text-align: center; font-size: 11px; }
@@ -350,4 +354,9 @@ button:disabled { cursor: not-allowed; opacity: .55; }
   .staff-page .staff-account { flex: 0 1 auto; justify-content: flex-end; column-gap: 8px; gap: 8px; margin-left: auto; }
   .staff-page .topnav { display: flex; width: 100%; justify-content: center; }
   .staff-page .topnav a { flex: 1 1 30%; min-width: 0; padding: 8px 5px; text-align: center; font-size: 11px; line-height: 1.2; white-space: normal; }
+}
+
+@media (max-width: 420px) {
+  .latest-panel > .recent-list,
+  .latest-panel > #called-empty { transform: translateY(15px); }
 }
