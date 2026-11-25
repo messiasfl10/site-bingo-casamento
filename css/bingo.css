@@ -298,7 +298,6 @@ button:disabled { cursor: not-allowed; opacity: .55; }
 .dashboard-page.is-simplified .content-grid { grid-template-areas: "board" "latest" "near" "prizes"; }
 .dashboard-page.is-simplified .board-called-count { display: inline-flex; }
 .dashboard-page.is-simplified .latest-panel { padding-bottom: 36px; }
-.dashboard-page.is-simplified .latest-panel > .recent-list { grid-template-columns: repeat(3, 38px); column-gap: 8px; justify-content: center; }
 .dashboard-page.is-simplified .near-cards { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
 
 @media (max-width: 680px) {
@@ -383,11 +382,22 @@ button:disabled { cursor: not-allowed; opacity: .55; }
 
 @media (min-width: 681px) {
   .dashboard-page.is-simplified .content-grid {
-    grid-template-columns: minmax(270px, .85fr) minmax(0, 2fr);
-    grid-template-rows: auto auto auto;
-    grid-template-areas: "board board" "latest near" "prizes near";
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-rows: auto auto;
+    grid-template-areas: "board board board latest latest" "prizes prizes near near near";
     align-items: stretch;
   }
+}
+
+@media (min-width: 1200px) {
+  .dashboard-page.is-simplified .content-grid {
+    grid-template-columns: repeat(20, minmax(0, 1fr));
+    grid-template-areas:
+      "board board board board board board board board board board board board board board board latest latest latest latest latest"
+      "prizes prizes prizes prizes near near near near near near near near near near near near near near near near";
+  }
+
+  .dashboard-page.is-simplified .latest-panel { padding-bottom: 17px; }
 }
 
 @media (max-width: 420px) {
