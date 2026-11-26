@@ -35,7 +35,9 @@ async function registerCard(rawValue) {
   try {
     await purchaseCard(card.id);
     document.getElementById('card-number').value = '';
-    showFeedback(`Cartela ${card.id} confirmada como comprada.`, 'success');
+    const message = `Cartela ${card.id} confirmada como comprada.`;
+    showFeedback(message, 'success');
+    showToast(message);
   } finally {
     busy = false;
     render(getState());
@@ -51,7 +53,7 @@ function showFeedback(message, kind) {
 document.getElementById('card-form').addEventListener('submit', async (event) => {
   event.preventDefault();
   try { await registerCard(document.getElementById('card-number').value); }
-  catch (error) { showFeedback(error.message, 'error'); }
+  catch (error) { showFeedback(error.message, 'error'); showToast(error.message, 'error'); }
 });
 
 async function startScanner() {
@@ -72,7 +74,7 @@ async function startScanner() {
         for (const code of await detector.detect(video)) {
           if (code.rawValue) {
             try { await registerCard(code.rawValue); stopScanner(); return; }
-            catch (error) { stopScanner(); showFeedback(error.message, 'error'); return; }
+            catch (error) { stopScanner(); showFeedback(error.message, 'error'); showToast(error.message, 'error'); return; }
           }
         }
       } catch { /* Aguarda o próximo quadro se o vídeo ainda não estiver pronto. */ }
